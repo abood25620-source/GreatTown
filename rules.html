@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>قوانين السيرفر</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Tahoma, Arial;
+    background: #0e0e0e;
+    color: white;
+}
+
+.top-line {
+    height: 6px;
+    background: linear-gradient(90deg, #7b2d3a, #8d2738);
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: #111;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    width: 55px;
+}
+
+.home-btn {
+    background: #7b2d3a;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+section {
+    max-width: 1000px;
+    margin: auto;
+    padding: 40px 20px 120px;
+}
+
+h2 {
+    text-align: center;
+    color: #c0374e;
+    margin-bottom: 35px;
+}
+
+/* Accordion */
+.rule {
+    background: #141414;
+    border-right: 4px solid #7b2d3a;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.rule-title {
+    padding: 18px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rule-title:hover {
+    background: #1c1c1c;
+}
+
+.rule-content {
+    display: none;
+    padding: 18px;
+    background: #1a1a1a;
+    line-height: 1.9;
+    border-top: 1px solid #2a2a2a;
+    white-space: pre-line;
+}
+
+.rule.active .rule-content {
+    display: block;
+}
+
+.arrow {
+    transition: 0.3s;
+}
+
+.rule.active .arrow {
+    transform: rotate(180deg);
+}
+
+/* Next button */
+.next-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #7b2d3a;
+    color: white;
+    padding: 12px 26px;
+    border-radius: 12px;
+    text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-line"></div>
+
+<nav class="navbar">
+    <div class="logo">
+        <img src="images/Logo.png">
+        <span>Respect Crime C.1</span>
+    </div>
+    <a class="home-btn" href="index.html">الرئيسية ⬅</a>
+</nav>
+
+<section>
+<h2>📜 قوانين السيرفر</h2>
+
+<!-- NLR -->
+<div class="rule">
+<div class="rule-title">🔄 NLR - قوانين الحياة الجديدة <span class="arrow">▼</span></div>
+<div class="rule-content">
+في حال إغمائك بشكل كامل لا يمكنك الكلام أو الحركة أو فعل أي شيء.
+في حال تم إسقاطك وتم إنعاشك من قبل المسعفين تستطيع تذكر جميع الأحداث.
+في حال تم إعطاؤك إبرة في العيادة الخاصة من لاعب لديه عداوة معك
+لا تستطيع تذكر أي شيء حصل لك (منها العداوات أو الأحداث).
+</div>
+</div>
+
+<!-- PowerGaming -->
+<div class="rule">
+<div class="rule-title">⚡ PowerGaming - الباور جيمنج <span class="arrow">▼</span></div>
+<div class="rule-content">
+استخدام وسائل غير موجودة في اللعبة للحصول على ميزة
+أو التصرف بطريقة غير واقعية أو غير منطقية.
+</div>
+</div>
+
+<!-- NVL -->
+<div class="rule">
+<div class="rule-title">⚠️ NVL - الخوف على الحياة <span class="arrow">▼</span></div>
+<div class="rule-content">
+عدم الخوف بشكل واقعي على حياتك عند التعرض للتهديد
+بالأسلحة أو أي وسيلة تعرض حياتك للخطر يعتبر مخالفة.
+</div>
+</div>
+
+<!-- Metagaming -->
+<div class="rule">
+<div class="rule-title">🧠 Metagaming - الميتا جيمنج <span class="arrow">▼</span></div>
+<div class="rule-content">
+أي معلومة تحصل عليها من خارج المدينة
+(بث، دسكورد، يوتيوب) تعتبر مخالفة.
+</div>
+</div>
+
+<!-- RDM -->
+<div class="rule">
+<div class="rule-title">🔫 RDM - القتل العشوائي <span class="arrow">▼</span></div>
+<div class="rule-content">
+قتل الأشخاص دون سبب أو تهديد أو بصورة عشوائية
+أو بدون عداوة يعتبر مخالف للنظام العام للسيرفر.
+</div>
+</div>
+
+<!-- NWL -->
+<div class="rule">
+<div class="rule-title">❤️ NWL - تقدير الحياة <span class="arrow">▼</span></div>
+<div class="rule-content">
+الحفاظ على حياتك وحياة الآخرين وعدم التهور.
+عدم مقاومة أي شخص مسلح خصوصًا إذا كنت أعزل.
+يجب التفاوض قبل أي تصعيد يعرض حياة الآخرين للخطر.
+</div>
+</div>
+
+<!-- General Rules -->
+<div class="rule">
+<div class="rule-title">📌 القوانين العامة <span class="arrow">▼</span></div>
+<div class="rule-content">
+✦ العمر المسموح: 18 سنة فما فوق.
+✦ ممنوع استخدام أي شخصية افتراضية إلا من خلال المتجر.
+✦ يمنع الاسم الإنجليزي أو المزخرف أو اسم شخصية مشهورة.
+✦ يمنع الدخول من أجهزة غير جهازك الشخصي.
+✦ يحق لك امتلاك شخصية واحدة فقط.
+✦ التحويل من إجرامي إلى عسكري يتطلب:
+- 14 يوم بدون نشاط إجرامي
+- الاحتفاظ بالسجل الجنائي
+- التطوع في مستشفى ريسبكت
+- القضايا الكبيرة قد تؤدي لإعدام الشخصية
+- دخول العسكرية بعد 20 يوم
+✦ من عسكري إلى مدني يجب تقديم استقالة رسمية.
+</div>
+</div>
+
+<!-- Streaming -->
+<div class="rule">
+<div class="rule-title">🎥 اللعب والبث <span class="arrow">▼</span></div>
+<div class="rule-content">
+✦ ممنوع الستريم سنايب أو متابعة البث أثناء اللعب.
+✦ ممنوع التواجد في الدسكورد أو التواصل الخارجي أثناء اللعب.
+</div>
+</div>
+
+</section>
+
+<a class="next-btn" href="rules2.html">التالي ⬅</a>
+
+<script>
+document.querySelectorAll(".rule-title").forEach(title => {
+    title.addEventListener("click", () => {
+        title.parentElement.classList.toggle("active");
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>Respect Aura | Season 1</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Tahoma, Arial;
+            background: #0e0e0e;
+            color: white;
+        }
+
+        .top-line {
+            height: 6px;
+            background: #7b2d3a;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background: #111;
+            position: relative;
+            z-index: 10;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo img {
+            width: 55px;
+        }
+
+        .logo span {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-buttons a {
+            text-decoration: none;
+            background: #7b2d3a;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-buttons a:hover {
+            background: #9a3a4a;
+            transform: scale(1.05);
+        }
+
+        /* ===== Header + Video ===== */
+        header {
+            position: relative;
+            height: 80vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        header video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.35;
+        }
+
+        /* اللوقو في نص الفيديو */
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+        }
+
+.center-logo img {
+    width: 225px;
+    opacity: 0.8;   /* الشفافية */
+}
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            padding: 80px 20px 0 20px;
+        }
+
+        header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            margin-top: 0;
+        }
+
+        header p {
+            max-width: 900px;
+            margin: auto;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #111;
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="top-line"></div>
+
+<nav class="navbar">
+    <div class="navbar-left">
+        <div class="logo">
+            <img src="images/Logo.png" alt="Logo" />
+            <span>Respect Aura | Season 1</span>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="store/store.html" target="_blank">🛒 المتجر</a>
+            <a href="rules.html">📜 القوانين</a>
+            <a href="https://discord.gg/XUTrAajmNc" target="_blank">💬 الدسكورد</a>
+        </div>
+    </div>
+</nav>
+
+<header>
+
+    <video autoplay muted loop playsinline>
+        <source src="videos/intro.mp4" type="video/mp4" />
+    </video>
+
+    <div class="center-logo">
+        <img src="images/Logo.png" alt="Logo">
+    </div>
+
+    <div class="header-content">
+        <h1>Respect Aura | Season 1</h1>
+        <p>
+            حياكم الله في سيرفر Respect Aura | Season 1 المتخصص في الرول بلاي
+            نسعى لتقديم أفضل تجربة رول بلاي في الشرق الأوسط
+            انضم إلينا الآن وابدأ حياتك كما تريد
+        </p>
+    </div>
+
+</header>
+
+<footer>
+    © Respect Aura | Season 1
+</footer>
+
+</body>
+</html>

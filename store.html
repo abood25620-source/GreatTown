@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Respect Aura Store</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Tahoma, Arial;
+    background:#0e0e0e;
+    color:white;
+}
+
+/* ===== الشريط العلوي ===== */
+.top-bar{
+    background:#7b2d3a;
+    padding:20px;
+    text-align:center;
+    font-size:26px;
+    font-weight:bold;
+}
+
+/* ===== الحاوية الرئيسية ===== */
+.container{
+    width:90%;
+    margin:auto;
+    padding:40px 0;
+}
+
+/* ===== شبكة المنتجات ===== */
+.products{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:25px;
+}
+
+/* ===== شكل الكرت ===== */
+.card{
+    background:#1a1a1a;
+    border-radius:15px;
+    overflow:hidden;
+    transition:0.3s;
+    text-align:center;
+    padding-bottom:15px;
+}
+
+.card:hover{
+    transform:scale(1.05);
+    background:#222;
+}
+
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.card h3{
+    margin:15px 0 5px 0;
+    font-size:20px;
+}
+
+.price{
+    color:#7b2d3a;
+    font-weight:bold;
+    font-size:18px;
+}
+
+footer{
+    background:#111;
+    text-align:center;
+    padding:20px;
+    margin-top:40px;
+    color:#aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+    Respect Aura | Store
+</div>
+
+<div class="container">
+
+    <!-- ######################################################## -->
+    <!-- ##################     هنا تضيف المنتجات     ################## -->
+    <!-- ######################################################## -->
+    <!-- انسخ كرت واحد والصقه تحت وعدل الصورة والاسم والسعر -->
+    <!-- ######################################################## -->
+
+    <div class="products">
+
+        <!-- ########## منتج رقم 1 ########## -->
+        <div class="card">
+            <img src="images/test.png"> <!-- غير الصورة هنا -->
+            <h3>test car</h3> <!-- غير الاسم هنا -->
+            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
+        </div>
+
+
+
+        <!-- ########## لو تبي تضيف سيارة جديدة ########## -->
+        <!-- انسخ هذا الكرت والصقه تحت وعدل البيانات -->
+        <!--
+        <div class="card">
+            <img src="images/اسم_الصورة.jpg">
+            <h3>اسم المنتج</h3>
+            <div class="price">السعر</div>
+        </div>
+        -->
+    </div>
+
+</div>
+
+<footer>
+    © Respect Aura | Season 1
+</footer>
+
+</body>
+</html>
