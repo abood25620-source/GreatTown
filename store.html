@@ -1,225 +1,371 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>Respect Aura Store</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respect Aura | المتجر</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        :root {
+            --primary: #7b2d3a;
+            --primary-hover: #9a3a4a;
+            --bg-dark: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-<style>
-body{
-    margin:0;
-    font-family:Tahoma, Arial;
-    background:#0e0e0e;
-    color:white;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
 
-/* ===== الشريط العلوي ===== */
-.top-bar{
-    background:#7b2d3a;
-    padding:20px;
-    text-align:center;
-    font-size:26px;
-    font-weight:bold;
-    position:relative;
-}
+        body {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-/* ===== زر الرئيسية (صار يسار) ===== */
-.home-btn{
-    position:absolute;
-    left:20px;
-    top:20px;
-    background:#111;
-    color:white;
-    padding:8px 15px;
-    border-radius:10px;
-    text-decoration:none;
-    font-size:14px;
-    transition:0.3s;
-}
+        /* ===== Navbar ===== */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 8%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
 
-.home-btn:hover{
-    background:#000;
-    color:#7b2d3a;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-/* ===== صورة السيرفر (يمين) ===== */
-.server-logo{
-    position:absolute;
-    right:20px;
-    top:10px;
-}
+        .logo img {
+            width: 50px;
+        }
 
-.server-logo img{
-    height:50px;
-}
+        .logo span {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-/* ===== الحاوية الرئيسية ===== */
-.container{
-    width:90%;
-    margin:auto;
-    padding:40px 0;
-}
+        .home-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
 
-/* ===== شبكة المنتجات ===== */
-.products{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    gap:25px;
-}
+        .home-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
 
-/* ===== شكل الكرت ===== */
-.card{
-    background:#1a1a1a;
-    border-radius:15px;
-    overflow:hidden;
-    transition:0.3s;
-    text-align:center;
-    padding-bottom:15px;
-}
+        /* ===== Store Content ===== */
+        .container {
+            max-width: 1200px;
+            margin: 120px auto 60px;
+            padding: 0 20px;
+        }
 
-.card:hover{
-    transform:scale(1.05);
-    background:#222;
-}
+        .store-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
 
-.card img{
-    width:100%;
-    height:200px;
-    object-fit:cover;
-}
+        .store-header h2 {
+            font-size: 45px;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
 
-.card h3{
-    margin:15px 0 5px 0;
-    font-size:20px;
-}
+        .store-header h2 span {
+            color: var(--primary);
+        }
 
-.price{
-    color:#7b2d3a;
-    font-weight:bold;
-    font-size:18px;
-}
+        .store-header p {
+            color: var(--text-muted);
+            font-size: 18px;
+        }
 
-footer{
-    background:#111;
-    text-align:center;
-    padding:20px;
-    margin-top:40px;
-    color:#aaa;
-}
-</style>
+        /* Products Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(123, 45, 58, 0.2);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .card:hover img {
+            transform: scale(1.1);
+        }
+
+        .card-info {
+            padding: 25px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .price {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .btn-buy {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition);
+        }
+
+        .card:hover .btn-buy {
+            background: var(--primary);
+            border-color: transparent;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #050505;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="top-bar">
-
-    <!-- زر الرئيسية (يسار) -->
-    <a class="home-btn" href="index.html">الرئيسية ⬅</a>
-
-    Respect Aura | Store
-
-    <!-- صورة السيرفر (يمين) -->
-    <div class="server-logo">
-        <img src="images/Logo.png">
-        <!-- غير المسار إلى صورة سيرفرك -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="images/Logo.png" alt="Logo">
+        <span>Respect Aura</span>
     </div>
-
-</div>
+    <a href="index.html" class="home-btn">
+        <i class="fa-solid fa-house"></i>
+        الرئيسية
+    </a>
+</nav>
 
 <div class="container">
-
-    <!-- ######################################################## -->
-    <!-- انسخ الكرت تحت وعدل الصورة والاسم والسعر فقط -->
-    <!-- ######################################################## -->
-
-    <div class="products">
-
-        <!-- منتج 1 -->
-        <div class="card">
-            <img src="images/house4.png"> <!-- غير الصورة هنا -->
-            <h3>بيت house4</h3> <!-- غير الاسم هنا -->
-            <div class="price">3 ريال</div> <!-- غير السعر هنا -->
-        </div>
-
-        <div class="card">
-            <img src="images/garage.png"> <!-- غير الصورة هنا -->
-            <h3>بيت garage</h3> <!-- غير الاسم هنا -->
-            <div class="price">2 ريال</div> <!-- غير السعر هنا -->
-        </div>
-
-        <div class="card">
-            <img src="images/modren hotel.png"> <!-- غير الصورة هنا -->
-            <h3>بيت modren hotel</h3> <!-- غير الاسم هنا -->
-            <div class="price">3 ريال</div> <!-- غير السعر هنا -->
-        </div>
-
-        <div class="card">
-            <img src="images/Apartment_unfumished.png"> <!-- غير الصورة هنا -->
-            <h3>بيت Apartment unfumished</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div>
-
-        <div class="card">
-            <img src="images/Container.png"> <!-- غير الصورة هنا -->
-            <h3>بيت Container</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div>
-
-        <div class="card">
-            <img src="images/House2.png"> <!-- غير الصورة هنا -->
-            <h3>بيت House2</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div>
-
-        <div class="card">
-            <img src="images/Office.png"> <!-- غير الصورة هنا -->
-            <h3>بيت Office</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div>
-
-        <div class="card">
-            <img src="images/Apartment_2_unfumished.png"> <!-- غير الصورة هنا -->
-            <h3>بيت Apartment 2 unfumished</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div>
-        
-         <div class="card">
-            <img src="images/House1.png"> <!-- غير الصورة هنا -->
-            <h3>بيت House1</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div>
-        
-         <div class="card">
-            <img src="images/Trailer.png"> <!-- غير الصورة هنا -->
-            <h3>بيت Trailer</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div>  
-
-         <div class="card">
-            <img src="images/gtr.png"> <!-- غير الصورة هنا -->
-            <h3>سيارة GTR</h3> <!-- غير الاسم هنا -->
-            <div class="price">5 ريال</div> <!-- غير السعر هنا -->
-        </div> 
-
-        
-        <!-- مثال إضافة منتج -->
-        <!--
-        <div class="card">
-            <img src="images/car2.png">
-            <h3>اسم السيارة</h3>
-            <div class="price">10 ريال</div>
-        </div>
-        -->
-
+    <div class="store-header">
+        <h2>متجر <span>السيادة</span></h2>
+        <p>اختر ما يناسبك من العقارات والسيارات الحصرية</p>
     </div>
 
+    <div class="products">
+        <!-- بيت 1 -->
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img src="images/house4.png">
+            </div>
+            <div class="card-info">
+                <h3>منزل عصري - House 4</h3>
+                <div class="price">3 ريال</div>
+                <a href="#" class="btn-buy" data-name="منزل عصري - House 4" data-price="3 ريال">شراء الآن</a>
+            </div>
+        </div>
+
+        <!-- بيت 2 -->
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img src="images/garage.png">
+            </div>
+            <div class="card-info">
+                <h3>كراج خاص - Garage</h3>
+                <div class="price">2 ريال</div>
+                <a href="#" class="btn-buy" data-name="كراج خاص - Garage" data-price="2 ريال">شراء الآن</a>
+            </div>
+        </div>
+
+        <!-- بيت 3 -->
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img src="images/modren hotel.png">
+            </div>
+            <div class="card-info">
+                <h3>فندق مودرن - Modern Hotel</h3>
+                <div class="price">3 ريال</div>
+                <a href="#" class="btn-buy" data-name="فندق مودرن - Modern Hotel" data-price="3 ريال">شراء الآن</a>
+            </div>
+        </div>
+
+        <!-- بيت 4 -->
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img src="images/Apartment_unfumished.png">
+            </div>
+            <div class="card-info">
+                <h3>شقة فاخرة - Unfurnished</h3>
+                <div class="price">5 ريال</div>
+                <a href="#" class="btn-buy" data-name="شقة فاخرة - Unfurnished" data-price="5 ريال">شراء الآن</a>
+            </div>
+        </div>
+
+        <!-- سيارة -->
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img src="images/gtr.png">
+            </div>
+            <div class="card-info">
+                <h3>سيارة GTR الحصرية</h3>
+                <div class="price">5 ريال</div>
+                <a href="#" class="btn-buy" data-name="سيارة GTR الحصرية" data-price="5 ريال">شراء الآن</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer>
-    © Respect Aura | Season 1
+    <p>© 2024 <span style="color: var(--primary); font-weight: bold;">Respect Aura</span> | جميع الحقوق محفوظة</p>
 </footer>
+
+<script>
+    document.querySelectorAll('.btn-buy').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const itemName = button.getAttribute('data-name');
+            const itemPrice = button.getAttribute('data-price');
+
+            const { value: username } = await Swal.fire({
+                title: 'إتمام الطلب',
+                text: `لقد اخترت: ${itemName}. يرجى إدخال اسمك لتأكيد الطلب:`,
+                input: 'text',
+                inputPlaceholder: 'أدخل اسمك هنا...',
+                showCancelButton: true,
+                confirmButtonText: 'إرسال الطلب',
+                cancelButtonText: 'إلغاء',
+                confirmButtonColor: '#7b2d3a',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'يجب إدخال اسمك لإتمام الطلب!'
+                    }
+                }
+            });
+
+            if (username) {
+                Swal.fire({
+                    title: 'جاري إرسال الطلب...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                try {
+                    const formData = new FormData();
+                    formData.append('username', username);
+                    formData.append('item_name', itemName);
+                    formData.append('item_price', itemPrice);
+
+                    const response = await fetch('store_order.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        Swal.fire({
+                            title: 'تم الطلب بنجاح!',
+                            text: 'تم إرسال طلبك للإدارة، وسيتم التواصل معك قريباً.',
+                            icon: 'success',
+                            confirmButtonColor: '#7b2d3a'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'خطأ!',
+                            text: result.message || 'حدث خطأ أثناء إرسال الطلب.',
+                            icon: 'error',
+                            confirmButtonColor: '#7b2d3a'
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        title: 'خطأ في الاتصال!',
+                        text: 'تعذر الاتصال بالخادم، يرجى المحاولة لاحقاً.',
+                        icon: 'error',
+                        confirmButtonColor: '#7b2d3a'
+                    });
+                }
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
-
-
-

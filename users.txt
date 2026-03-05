@@ -1,0 +1,2 @@
+# Respect Aura User Database
+# Format: username|password_hash|email|registration_date

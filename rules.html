@@ -1,229 +1,335 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>قوانين السيرفر</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respect Aura | قوانين السيرفر</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #7b2d3a;
+            --primary-hover: #9a3a4a;
+            --bg-dark: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: #b0b0b0;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-<style>
-body {
-    margin: 0;
-    font-family: Tahoma, Arial;
-    background: #0e0e0e;
-    color: white;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
 
-.top-line {
-    height: 6px;
-    background: linear-gradient(90deg, #7b2d3a, #8d2738);
-}
+        body {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-/* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 30px;
-    background: #111;
-}
+        /* ===== Navbar ===== */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 8%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.logo img {
-    width: 55px;
-}
+        .logo img {
+            width: 50px;
+        }
 
-.home-btn {
-    background: #7b2d3a;
-    color: white;
-    padding: 10px 22px;
-    border-radius: 10px;
-    text-decoration: none;
-}
+        .logo span {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-section {
-    max-width: 1000px;
-    margin: auto;
-    padding: 40px 20px 120px;
-}
+        .home-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
 
-h2 {
-    text-align: center;
-    color: #c0374e;
-    margin-bottom: 35px;
-}
+        .home-btn:hover {
+            background: var(--primary-hover);
+            transform: scale(1.05);
+        }
 
-/* Accordion */
-.rule {
-    background: #141414;
-    border-right: 4px solid #7b2d3a;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    overflow: hidden;
-}
+        /* ===== Rules Content ===== */
+        section {
+            max-width: 900px;
+            margin: 120px auto 60px;
+            padding: 0 20px;
+        }
 
-.rule-title {
-    padding: 18px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .category-title {
+            font-size: 32px;
+            margin: 40px 0 20px;
+            color: var(--primary);
+            font-weight: 800;
+            border-right: 5px solid var(--primary);
+            padding-right: 15px;
+        }
 
-.rule-title:hover {
-    background: #1c1c1c;
-}
+        h2 {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 900;
+        }
 
-.rule-content {
-    display: none;
-    padding: 18px;
-    background: #1a1a1a;
-    line-height: 1.9;
-    border-top: 1px solid #2a2a2a;
-    white-space: pre-line;
-}
+        h2 span {
+            color: var(--primary);
+        }
 
-.rule.active .rule-content {
-    display: block;
-}
+        /* Accordion */
+        .rule {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-right: 5px solid var(--primary);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
 
-.arrow {
-    transition: 0.3s;
-}
+        .rule:hover {
+            border-color: var(--primary-hover);
+            transform: translateX(-5px);
+        }
 
-.rule.active .arrow {
-    transform: rotate(180deg);
-}
+        .rule-title {
+            padding: 18px 22px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
 
-/* Next button */
-.next-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background: #7b2d3a;
-    color: white;
-    padding: 12px 26px;
-    border-radius: 12px;
-    text-decoration: none;
-}
-</style>
+        .rule-title:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .rule-content {
+            display: none;
+            padding: 22px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-muted);
+            line-height: 1.8;
+            border-top: 1px solid var(--glass-border);
+            white-space: pre-line;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .rule.active .rule-content {
+            display: block;
+        }
+
+        .arrow {
+            font-size: 12px;
+            transition: var(--transition);
+            color: var(--primary);
+        }
+
+        .rule.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #050505;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="top-line"></div>
-
 <nav class="navbar">
     <div class="logo">
-        <img src="images/Logo.png">
-        <span>Respect Crime C.1</span>
+        <img src="images/Logo.png" alt="Logo">
+        <span>Respect Aura</span>
     </div>
-    <a class="home-btn" href="index.html">الرئيسية ⬅</a>
+    <a href="index.html" class="home-btn">
+        <i class="fa-solid fa-house"></i>
+        الرئيسية
+    </a>
 </nav>
 
 <section>
-<h2>📜 قوانين السيرفر</h2>
+    <h2>📜 قوانين <span>السيرفر الكاملة</span></h2>
 
-<!-- NLR -->
-<div class="rule">
-<div class="rule-title">🔄 NLR - قوانين الحياة الجديدة <span class="arrow">▼</span></div>
-<div class="rule-content">
-في حال إغمائك بشكل كامل لا يمكنك الكلام أو الحركة أو فعل أي شيء.
-في حال تم إسقاطك وتم إنعاشك من قبل المسعفين تستطيع تذكر جميع الأحداث.
-في حال تم إعطاؤك إبرة في العيادة الخاصة من لاعب لديه عداوة معك
-لا تستطيع تذكر أي شيء حصل لك (منها العداوات أو الأحداث).
-</div>
-</div>
+    <div class="category-title">الأساسيات والمصطلحات</div>
 
-<!-- PowerGaming -->
-<div class="rule">
-<div class="rule-title">⚡ PowerGaming - الباور جيمنج <span class="arrow">▼</span></div>
-<div class="rule-content">
-استخدام وسائل غير موجودة في اللعبة للحصول على ميزة
-أو التصرف بطريقة غير واقعية أو غير منطقية.
-</div>
-</div>
+    <!-- NLR -->
+    <div class="rule">
+        <div class="rule-title">🔄 NLR - قوانين الحياة الجديدة <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            • في حال إغمائك بشكل كامل لا يمكنك الكلام أو الحركة أو فعل أي شيء.
+            • في حال تم إسقاطك وتم إنعاشك من قبل المسعفين تستطيع تذكر جميع الأحداث.
+            • في حال تم إعطاؤك إبرة في العيادة الخاصة من لاعب لديه عداوة معك لا تستطيع تذكر أي شيء حصل لك.
+        </div>
+    </div>
 
-<!-- NVL -->
-<div class="rule">
-<div class="rule-title">⚠️ NVL - الخوف على الحياة <span class="arrow">▼</span></div>
-<div class="rule-content">
-عدم الخوف بشكل واقعي على حياتك عند التعرض للتهديد
-بالأسلحة أو أي وسيلة تعرض حياتك للخطر يعتبر مخالفة.
-</div>
-</div>
+    <!-- PowerGaming -->
+    <div class="rule">
+        <div class="rule-title">⚡ PowerGaming - الباور جيمنج <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            • استخدام وسائل غير موجودة في اللعبة للحصول على ميزة.
+            • التصرف بطريقة غير واقعية أو غير منطقية لا يمكن القيام بها في الحقيقة.
+        </div>
+    </div>
 
-<!-- Metagaming -->
-<div class="rule">
-<div class="rule-title">🧠 Metagaming - الميتا جيمنج <span class="arrow">▼</span></div>
-<div class="rule-content">
-أي معلومة تحصل عليها من خارج المدينة
-(بث، دسكورد، يوتيوب) تعتبر مخالفة.
-</div>
-</div>
+    <!-- NVL -->
+    <div class="rule">
+        <div class="rule-title">⚠️ NVL - الخوف على الحياة <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            • عدم الخوف بشكل واقعي على حياتك عند التعرض للتهديد بالأسلحة.
+            • أي وسيلة تعرض حياتك للخطر دون مبالاة تعتبر مخالفة صريحة.
+        </div>
+    </div>
 
-<!-- RDM -->
-<div class="rule">
-<div class="rule-title">🔫 RDM - القتل العشوائي <span class="arrow">▼</span></div>
-<div class="rule-content">
-قتل الأشخاص دون سبب أو تهديد أو بصورة عشوائية
-أو بدون عداوة يعتبر مخالف للنظام العام للسيرفر.
-</div>
-</div>
+    <!-- Metagaming -->
+    <div class="rule">
+        <div class="rule-title">🧠 Metagaming - الميتا جيمنج <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            • أي معلومة تحصل عليها من خارج المدينة (بث، دسكورد، يوتيوب) وتستخدمها داخل اللعبة تعتبر مخالفة.
+        </div>
+    </div>
 
-<!-- NWL -->
-<div class="rule">
-<div class="rule-title">❤️ NWL - تقدير الحياة <span class="arrow">▼</span></div>
-<div class="rule-content">
-الحفاظ على حياتك وحياة الآخرين وعدم التهور.
-عدم مقاومة أي شخص مسلح خصوصًا إذا كنت أعزل.
-يجب التفاوض قبل أي تصعيد يعرض حياة الآخرين للخطر.
-</div>
-</div>
+    <!-- RDM -->
+    <div class="rule">
+        <div class="rule-title">🔫 RDM - القتل العشوائي <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            • قتل الأشخاص دون سبب أو تهديد مسبق.
+            • القتل بدون وجود عداوة واضحة أو سيناريو رول بلاي مكتمل.
+        </div>
+    </div>
 
-<!-- General Rules -->
-<div class="rule">
-<div class="rule-title">📌 القوانين العامة <span class="arrow">▼</span></div>
-<div class="rule-content">
-✦ العمر المسموح: 18 سنة فما فوق.
-✦ ممنوع استخدام أي شخصية افتراضية إلا من خلال المتجر.
-✦ يمنع الاسم الإنجليزي أو المزخرف أو اسم شخصية مشهورة.
-✦ يمنع الدخول من أجهزة غير جهازك الشخصي.
-✦ يحق لك امتلاك شخصية واحدة فقط.
-✦ التحويل من إجرامي إلى عسكري يتطلب:
-- 14 يوم بدون نشاط إجرامي
-- الاحتفاظ بالسجل الجنائي
-- التطوع في مستشفى ريسبكت
-- القضايا الكبيرة قد تؤدي لإعدام الشخصية
-- دخول العسكرية بعد 20 يوم
-✦ من عسكري إلى مدني يجب تقديم استقالة رسمية.
-</div>
-</div>
+    <div class="category-title">القوانين العامة</div>
 
-<!-- Streaming -->
-<div class="rule">
-<div class="rule-title">🎥 اللعب والبث <span class="arrow">▼</span></div>
-<div class="rule-content">
-✦ ممنوع الستريم سنايب أو متابعة البث أثناء اللعب.
-✦ ممنوع التواجد في الدسكورد أو التواصل الخارجي أثناء اللعب.
-</div>
-</div>
+    <!-- General Rules -->
+    <div class="rule">
+        <div class="rule-title">📌 القوانين السلوكية والعامة <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            ✦ العمر المسموح: 18 سنة فما فوق.
+            ✦ ممنوع الاعتداء على البوتات (يعتبرون مواطنين).
+            ✦ يمنع القذف، الشتم، الطائفية، السياسة، الدين، أو القبلية (العقوبة: باند نهائي).
+            ✦ يمنع توزيع مبالغ مالية كبيرة (10 آلاف فأكثر) إلا إذا كان بينكم معرفة لا تقل عن أسبوع.
+            ✦ يمنع مشاركة حساباتك أو معلوماتك الشخصية مع أي شخص (باند نهائي).
+            ✦ يمنع حمل شخصين في نفس الوقت مهما كانت الأسباب.
+        </div>
+    </div>
+
+    <div class="category-title">الوظائف الحكومية</div>
+
+    <!-- Police Rules -->
+    <div class="rule">
+        <div class="rule-title">🚓 قوانين الشرطة <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            - المداهمة: تتم بأمر من المحكمة.
+            - استخدام الأسلحة فقط عند الضرورة ومطابقة الأسلحة المستخدمة من المجرم.
+            - احترام المواطنين والزملاء، وعدم استخدام لغة أو إيماءات عنيفة.
+            - منع الفساد والتمرد والخيانة مع العقوبات الصارمة.
+            - استخدام المخدرات ممنوع وعقوبته الفصل الفوري.
+        </div>
+    </div>
+
+    <!-- EMS Rules -->
+    <div class="rule">
+        <div class="rule-title">🚑 قوانين الإسعاف <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            ✦ يمنع المسعفين من بناء عداوات مع المواطنين أو القيام بأي نشاط إجرامي.
+            ✦ ممنوع حيازة أي نوع من الأسلحة نهائياً.
+            ✦ الالتزام بالزي الرسمي والتقارير الطبية.
+            ✦ يمنع نقل المصابين في مركبات غير مخصصة للإسعاف.
+        </div>
+    </div>
+
+    <div class="category-title">العصابات والإجرام</div>
+
+    <!-- Gang Rules -->
+    <div class="rule">
+        <div class="rule-title">💣 قوانين العصابات <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            1- ممنوع اتحاد أو تحالف بين العصابات بدون موافقة الإدارة.
+            2- عدد العصابة المسموح به من 10 إلى 25 لاعب.
+            3- الالتزام باحترام الألوان واللبس الخاص بالعصابة.
+            4- الالتزام بالتصوير الكامل للفايتات الرسمية بدون تقطيع.
+            5- تسجيل العداوات في الروم المخصص بالدسكورد.
+        </div>
+    </div>
+
+    <!-- Criminal Rules -->
+    <div class="rule">
+        <div class="rule-title">🕵️ قوانين الإجرام والسرقة <i class="fa-solid fa-chevron-down arrow"></i></div>
+        <div class="rule-content">
+            ✦ يمنع ملاحقة العساكر بغرض المضايقات أو التدخل في عملهم.
+            ✦ يمنع التحلل أو الخروج من المدينة إلا بعد مرور 15 دقيقة من انتهاء السيناريو.
+            ✦ يمنع خطف أي شخص في مكان عام أو مزدحم.
+            ✦ يمنع خطف أو أخذ رهينة من بين المعارف أو الأصدقاء.
+            ✦ يحق سرقة عسكري إذا كانت هناك عداوة سابقة بشرط ألا تكون بسبب قيامه بعمله الرسمي.
+        </div>
+    </div>
 
 </section>
 
-<a class="next-btn" href="rules2.html">التالي ⬅</a>
+<footer>
+    <p>© 2024 <span style="color: var(--primary); font-weight: bold;">Respect Aura</span> | جميع الحقوق محفوظة</p>
+</footer>
 
 <script>
-document.querySelectorAll(".rule-title").forEach(title => {
-    title.addEventListener("click", () => {
-        title.parentElement.classList.toggle("active");
-    });
-});
+    document.querySelectorAll('.rule-title').forEach(item => {
+        item.addEventListener('click', event => {
+            const parent = item.parentElement;
+            parent.classList.toggle('active');
+        })
+    })
 </script>
 
 </body>
