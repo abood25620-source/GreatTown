@@ -294,6 +294,9 @@
 </footer>
 
 <script>
+    // Discord Webhook for Store
+    const STORE_WEBHOOK = "https://discord.com/api/webhooks/1479437630687936552/W78V3gyRFIpPTaLQWx6d0EuR2T2cNPFmVAViV6V0eigjjv-IBdUuGNj4hBP23s7iVWJ6";
+
     document.querySelectorAll('.btn-buy').forEach(button => {
         button.addEventListener('click', async (e) => {
             e.preventDefault();
@@ -301,21 +304,41 @@
             const itemName = button.getAttribute('data-name');
             const itemPrice = button.getAttribute('data-price');
 
-            const { value: username } = await Swal.fire({
-                title: 'إتمام الطلب',
-                text: `لقد اخترت: ${itemName}. يرجى إدخال اسمك لتأكيد الطلب:`,
-                input: 'text',
-                inputPlaceholder: 'أدخل اسمك هنا...',
-                showCancelButton: true,
-                confirmButtonText: 'إرسال الطلب',
-                cancelButtonText: 'إلغاء',
-                confirmButtonColor: '#7b2d3a',
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'يجب إدخال اسمك لإتمام الطلب!'
+            // 1. Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('aura_current_user'));
+            let username = currentUser ? currentUser.username : null;
+
+            // 2. If not logged in, ask for name
+            if (!username) {
+                const { value: inputName } = await Swal.fire({
+                    title: 'إتمام الطلب',
+                    text: `لقد اخترت: ${itemName}. يرجى إدخال اسمك لتأكيد الطلب (أو سجل دخولك أولاً):`,
+                    input: 'text',
+                    inputPlaceholder: 'أدخل اسمك هنا...',
+                    showCancelButton: true,
+                    confirmButtonText: 'إرسال الطلب',
+                    cancelButtonText: 'إلغاء',
+                    confirmButtonColor: '#7b2d3a',
+                    inputValidator: (value) => {
+                        if (!value) {
+                            return 'يجب إدخال اسمك لإتمام الطلب!'
+                        }
                     }
-                }
-            });
+                });
+                username = inputName;
+            } else {
+                // Confirm purchase for logged-in user
+                const result = await Swal.fire({
+                    title: 'تأكيد الشراء',
+                    text: `هل تود شراء ${itemName} بسعر ${itemPrice} بحسابك (${username})؟`,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'نعم، شراء الآن',
+                    cancelButtonText: 'إلغاء',
+                    confirmButtonColor: '#7b2d3a'
+                });
+                if (!result.isConfirmed) return;
+            }
 
             if (username) {
                 Swal.fire({
@@ -326,39 +349,52 @@
                     }
                 });
 
-                try {
-                    const formData = new FormData();
-                    formData.append('username', username);
-                    formData.append('item_name', itemName);
-                    formData.append('item_price', itemPrice);
-
-                    const response = await fetch('store_order.php', {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    const result = await response.json();
-
-                    if (result.success) {
-                        Swal.fire({
-                            title: 'تم الطلب بنجاح!',
-                            text: 'تم إرسال طلبك للإدارة، وسيتم التواصل معك قريباً.',
-                            icon: 'success',
-                            confirmButtonColor: '#7b2d3a'
+                // 3. Send to Discord via Webhook (JS version for GitHub)
+                if (STORE_WEBHOOK && STORE_WEBHOOK !== "ضع_رابط_الويب_هوك_هنا") {
+                    try {
+                        const response = await fetch(STORE_WEBHOOK, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                username: "Respect Aura Store",
+                                embeds: [{
+                                    title: "🛒 طلب شراء جديد من الموقع",
+                                    color: 8072506,
+                                    fields: [
+                                        { name: "👤 المشتري", value: username, inline: true },
+                                        { name: "📦 المنتج", value: itemName, inline: true },
+                                        { name: "💰 السعر", value: itemPrice, inline: false },
+                                        { name: "🌐 حالة الحساب", value: currentUser ? "مسجل دخول" : "زائر (يدوي)", inline: true }
+                                    ],
+                                    footer: { text: "تم الطلب عبر نظام المتجر الإلكتروني" },
+                                    timestamp: new Date().toISOString()
+                                }]
+                            })
                         });
-                    } else {
+
+                        if (response.ok) {
+                            Swal.fire({
+                                title: 'تم الطلب بنجاح!',
+                                text: 'تم إرسال طلبك للإدارة عبر الديسكورد، وسيتم التواصل معك قريباً.',
+                                icon: 'success',
+                                confirmButtonColor: '#7b2d3a'
+                            });
+                        } else {
+                            throw new Error("Webhook failed");
+                        }
+                    } catch (error) {
                         Swal.fire({
                             title: 'خطأ!',
-                            text: result.message || 'حدث خطأ أثناء إرسال الطلب.',
+                            text: 'حدث خطأ أثناء إرسال الطلب للديسكورد. يرجى التأكد من إعداد الويب هوك.',
                             icon: 'error',
                             confirmButtonColor: '#7b2d3a'
                         });
                     }
-                } catch (error) {
+                } else {
                     Swal.fire({
-                        title: 'خطأ في الاتصال!',
-                        text: 'تعذر الاتصال بالخادم، يرجى المحاولة لاحقاً.',
-                        icon: 'error',
+                        title: 'تنبيه!',
+                        text: 'لم يتم إعداد رابط الويب هوك في الكود بعد.',
+                        icon: 'warning',
                         confirmButtonColor: '#7b2d3a'
                     });
                 }
