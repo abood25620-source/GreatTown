@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 // ضع رابط الويب هوك الخاص بك هنا
-$webhook_url = "https://discord.com/api/webhooks/1479212635546325033/uWhhyeX3Q_u-PFHIGGPZNz1FZUIjS08qOVK_xsuSkcOP3_YMWEJpsPaCDubBcbQtKoL1";
+$webhook_url = "ضع_رابط_الويب_هوك_هنا";
 
 $username = $_POST['username'] ?? '';
 $item_name = $_POST['item_name'] ?? '';
